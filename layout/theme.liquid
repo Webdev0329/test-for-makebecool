@@ -12,9 +12,15 @@
   <meta name="description" content="">
 
   {{ content_for_header }}
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;700&display=swap" rel="stylesheet">
+
+  {{ 'style.scss.css' | asset_url | stylesheet_tag }}
 </head>
 
 <body>
-  {{ content_for_layout }}
+	{% section 'header' %}
+	{{ content_for_layout }}
 </body>
 </html>

@@ -1,0 +1,64 @@
+<div class="header page-width">
+	<div class="header-left">
+		{% if section.settings.logo != blank %}
+			{% assign logo_size = section.settings.logo_width | append: 'x' %}
+			<img src="{{section.settings.logo | img_url:logo_size}}" class="logo">
+		{% endif %}
+	</div>
+	<div class="header-right">
+		<div class="main_nav">
+			{% for link in linklists[section.settings.main_nav_linklist].links %}
+			<a url="{{link.url}}" class="nav-item {% if link.handle == 'sale' %} strong {% endif %} "> {{link.title}} </a>
+			{% endfor %}
+
+			{% if section.settings.enable_search %}
+			<a class="nav-item item-search">
+				{% include 'icon-search' %}
+			</a>
+			{% endif %}
+
+			<a class="nav-item item-cart">
+				{% include 'icon-cart' %}
+				<span class="cart-count"></span>
+			</a>
+		</div>
+	</div>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "Custom logo width",
+        "min": 100,
+        "max": 800,
+        "step": 10,
+        "default": 150,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Main menu"
+      },
+      {
+        "type": "link_list",
+        "id": "main_nav_linklist",
+        "label": "Menu"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_search",
+        "label": "Enable search icon",
+        "default": true
+      }
+  ]
+}
+{% endschema %}
