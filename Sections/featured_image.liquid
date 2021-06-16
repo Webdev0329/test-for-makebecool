@@ -1,0 +1,129 @@
+<div class="featured_image large {% if section.settings.with_padding %} page-width {% endif %}" data-section-id="{{ section.id }}">
+  <div class="image_wrapper"></div>
+  <div class="content_wrapper">
+    {% if section.settings.heading != blank %}
+      <h1 class="section-heading">
+        {{ section.settings.heading }}
+      </h1>
+    {% endif %}
+    {% if section.settings.subheading != blank %}
+      <h3 class="section-subheading">
+        {{ section.settings.subheading }}
+      </h3>
+    {% endif %}
+    {% if section.settings.button-text != blank %}
+      <a href="{{section.settings.button-url}}" class="section-button">
+        {{ section.settings.button-text }}
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+<style type="text/css">
+.featured_image.large {
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  align-items: baseline;
+  padding: 100px 20px;
+  position: relative;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.featured-image-section .image_wrapper {
+  background-image: url({{section.settings.image | img_url:'master'}});
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  justify-content: center;
+}
+
+.featured-image-section .content_wrapper {
+  z-index: 1;
+  text-align: center;
+  color: #FFF;
+  max-width: 500px;
+}
+
+.featured-image-section .section-heading, .featured-image-section .section-subheading {
+  font-family: 'Goudy Bookletter 1911', serif;
+  font-weight: 300;
+}
+
+.featured-image-section .section-button {
+  color: #FFF;
+  background: #CC0000;
+  text-decoration: none;
+  padding: 15px 25px;
+  border-radius: 4px;
+  box-shadow: inset 0px -2px 2px rgb(32 32 32 / 33%);
+  display: inline-block;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 767px) {
+  {% if section.settings.image_mobile != blank %}
+  .featured-image-section .image_wrapper {
+    background-image: url({{section.settings.image_mobile | img_url:'master'}});
+  }
+  {% endif %}
+  .featured_image.large {
+    align-items: center;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Featured image",
+  "class": "featured-image-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "with_padding",
+      "label": "Page Width",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Image for small screen (optional)"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "button-text",
+      "label": "Button Label"
+    },
+    {
+      "type": "url",
+      "id": "button-url",
+      "label": "Button Url"
+    }
+  ],
+  "presets": [{
+    "name": "Featured image",
+    "category": "Image"
+  }]
+}
+{% endschema %}

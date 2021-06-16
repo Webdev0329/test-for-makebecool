@@ -1,14 +1,25 @@
 <div class="header page-width">
 	<div class="header-left">
+		<a class="btn-hamburger mobile">
+			{% include 'icon-hamburger' %}
+		</a>
+
 		{% if section.settings.logo != blank %}
 			{% assign logo_size = section.settings.logo_width | append: 'x' %}
-			<img src="{{section.settings.logo | img_url:logo_size}}" class="logo">
+			<a href="/"><img src="{{section.settings.logo | img_url:logo_size}}" class="logo"></a>
 		{% endif %}
+
+		<a class="btn-cart mobile">
+			{% include 'icon-cart' %}
+			{% if cart.count > 0 %}
+			<span class="cart-count">{{cart.count}}</span>
+			{% endif %}
+		</a>
 	</div>
-	<div class="header-right">
+	<div class="header-right desktop">
 		<div class="main_nav">
 			{% for link in linklists[section.settings.main_nav_linklist].links %}
-			<a url="{{link.url}}" class="nav-item {% if link.handle == 'sale' %} strong {% endif %} "> {{link.title}} </a>
+			<a href="{{link.url}}" class="nav-item {% if link.handle == 'sale' %} strong {% endif %} "> {{link.title}} </a>
 			{% endfor %}
 
 			{% if section.settings.enable_search %}
@@ -17,12 +28,30 @@
 			</a>
 			{% endif %}
 
-			<a class="nav-item item-cart">
+			<a class="nav-item btn-cart">
 				{% include 'icon-cart' %}
-				<span class="cart-count"></span>
+				{% if cart.count > 0 %}
+				<span class="cart-count">{{cart.count}}</span>
+				{% endif %}
 			</a>
 		</div>
 	</div>
+</div>
+
+<div class="mobile-nav mobile">
+	<a class="btn-close">
+		{% include 'icon-close_light' %}
+	</a>
+
+	{% if section.settings.enable_search %}
+	<div class="nav-item">
+		{% include 'search-form' %}
+	</div>
+	{% endif %}
+
+	{% for link in linklists[section.settings.main_nav_linklist].links %}
+	<a url="{{link.url}}" class="nav-item {% if link.handle == 'sale' %} strong {% endif %} "> {{link.title}} </a>
+	{% endfor %}
 </div>
 
 {% schema %}

@@ -1,0 +1,71 @@
+{% assign number_of_images = 0 %}
+{% for image in product.images %}
+  {% assign number_of_images = number_of_images | plus: 1 %}
+{% endfor %}
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+<div class="product-images {% if number_of_images > 1 %}{{ section.settings.thumbnails_position }}{% endif %} {{ section.settings.thumbnails_size }}">
+  <div class="frame">
+    <div class="table">
+      <div class="cell">
+        {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
+        {% if section.settings.zoom_enable %}
+          {% assign data-mfp-src =  featured_image | img_url: '1024x1024' %}
+        {% endif %}
+        {% assign alt = featured_image.alt | escape %}
+        {% include 'resp-img',
+          id: featured_image.id,
+          image: featured_image,
+          sizes: "(max-width: 620px) 100vw, 50vw",
+          default_size: "600x",
+          image_size: "600x",
+          squared: true,
+          alt: alt,
+          data-mfp-src: data-mfp-src
+        %}
+
+        {% for image in product.images %}
+          {% unless image contains featured_image %}
+            {% assign alt = image.alt | escape %}
+            {% if section.settings.zoom_enable %}
+              {% assign data-mfp-src =  image | img_url: '1024x1024' %}
+            {% endif %}
+            {% include 'resp-img',
+              id: image.id,
+              class: 'hide lazy',
+              image: image,
+              default_size: "10x10",
+        	  image_size: "600x",
+              sizes: "(max-width: 620px) 100vw, 50vw",
+              squared: true,
+              alt: alt,
+              data-mfp-src: data-mfp-src
+            %}
+          {% endunless %}
+        {% endfor %}
+      </div>
+    </div>
+    {% comment %}
+    <button class="btn_prev"></button>
+    <button class="btn_next"></button>
+    {% endcomment %}
+  </div>
+  {% if number_of_images > 1 %}
+    <div class="gallery">
+      {% for image in product.images %}
+        <a href="{{ image | img_url: '50x50' }}" class="lazy" data-action="show-product-image" data-id="{{ image.id }}">
+          {% comment %}
+          <style type="text/css">
+            #thumbnail-{{ section.id }}-{{ image.id  }} {
+              {% include 'resp-bg-img', image: image, size: '240x240' %}
+            }
+          </style>
+          <div class="box" id="thumbnail-{{ section.id }}-{{ image.id }}"></div>
+          {% endcomment %}
+          <img class="box lazy" width="50px" height="50px" id="thumbnail-{{ section.id }}-{{ image.id }}" data-src="{{ image | img_url: '50x50' }}" src="{{ image | img_url: '2x2' }}" >
+        </a>
+      {% endfor %}    
+    </div>
+  {% endif %}
+</div>
