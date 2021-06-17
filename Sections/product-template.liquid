@@ -4,13 +4,14 @@
       {% include 'product-images' %}
     </div>
     <div class="right">
-      {% if section.settings.product_show_vendor %}
-        <h2>{{ product.vendor }}</h2>
-      {% endif %}
       <div class="product_title_line">
-        <h1 itemprop="name">{{ product.title }}</h1>
+        <h1 class="product_title">{{ product.title }}</h1>
       </div>
       {% include 'product-form' %}
+
+      <div class="row product-description">
+        {{ product.description }}
+      </div>
     </div>
   </div>
 </div>
@@ -19,12 +20,6 @@
 {
   "name": "Product information",
   "settings": [
-    {
-      "type": "checkbox",
-      "id": "product_show_vendor",
-      "label": "Show vendor",
-      "default": false
-    },
     {
       "type": "checkbox",
       "id": "product_show_quantity_selector",
@@ -37,105 +32,6 @@
       "label": "Show dynamic checkout button",
       "info": "Lets customers check out directly using a familiar payment method. [Learn more](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
       "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "product_show_description_title",
-      "label": "Show description title",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "social_sharing_products",
-      "label": "Show sharing",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "zoom_enable",
-      "label": "Enable image zoom",
-      "default": true
-    },
-    {
-      "type": "select",
-      "id": "variants_type",
-      "label": "Show product options as",
-      "default": "radios",
-      "options": [
-        {
-          "value": "radios",
-          "label": "Buttons"
-        },
-        {
-          "value": "dropdowns",
-          "label": "Dropdowns"
-        }
-      ]
-    },
-    {
-      "type": "select",
-      "id": "thumbnails_position",
-      "label": "Product images position",
-      "default": "right",
-      "info": "Desktop only",
-      "options": [
-        {
-          "value": "bottom",
-          "label": "Bottom"
-        },
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
-      ]
-    },
-    {
-      "type": "select",
-      "id": "thumbnails_size",
-      "label": "Product images scale",
-      "default": "contain",
-      "options": [
-        {
-          "value": "cover",
-          "label": "Cover"
-        },
-        {
-          "value": "contain",
-          "label": "Contain"
-        }
-      ]
-    },
-    {
-       "type":      "header",
-       "content":   "Backgrounds"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "image",
-      "name": "Background Image",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "background_image",
-          "label": "Background Image"
-        }
-      ]
-    },
-    {
-      "type": "text",
-      "name": "Background Title",
-      "settings": [
-        {
-          "type": "text",
-          "id": "background_title",
-          "label": "Background Title"
-        }
-      ]
     }
   ]
 }

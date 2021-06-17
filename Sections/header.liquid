@@ -11,9 +11,8 @@
 
 		<a class="btn-cart mobile">
 			{% include 'icon-cart' %}
-			{% if cart.count > 0 %}
-			<span class="cart-count">{{cart.count}}</span>
-			{% endif %}
+			<span class="cart-count {% if cart.count <= 0 %}hide{% endif %}">{{cart.count}}</span>
+			
 		</a>
 	</div>
 	<div class="header-right desktop">
@@ -23,16 +22,14 @@
 			{% endfor %}
 
 			{% if section.settings.enable_search %}
-			<a class="nav-item item-search">
+			<a href="/search" class="nav-item item-search">
 				{% include 'icon-search' %}
 			</a>
 			{% endif %}
 
 			<a class="nav-item btn-cart">
 				{% include 'icon-cart' %}
-				{% if cart.count > 0 %}
-				<span class="cart-count">{{cart.count}}</span>
-				{% endif %}
+				<span class="cart-count {% if cart.item_count <= 0 %}hide{% endif %}">{{cart.item_count}}</span>
 			</a>
 		</div>
 	</div>

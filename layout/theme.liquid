@@ -20,6 +20,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Goudy+Bookletter+1911&display=swap" rel="stylesheet">
 
   {{ 'style.scss.css' | asset_url | stylesheet_tag }}
+
+  {% if template == 'product' %}
+  {{ 'product.scss.css' | asset_url | stylesheet_tag }}
+  {% endif %}
 </head>
 
 <body>

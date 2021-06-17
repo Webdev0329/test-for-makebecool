@@ -1,0 +1,98 @@
+jQuery(document).ready(function($) {
+	$(".btn-hamburger").click(function(e) {
+		$(".mobile-nav").addClass("opened");
+	});
+
+	$(".mobile-nav .btn-close").click(function(e) {
+		$(".mobile-nav").removeClass("opened");
+	});
+
+	$(".product-images .gallery .gallery-item").click(function(e) {
+		$(".product-images .gallery .gallery-item").removeClass("selected");
+		$(this).addClass("selected");
+		$(".product-images .frame img").attr("src", $(this).attr("data-src"));
+	});
+
+	$("#productSelect-product-template").change(function(e) {
+		/* update variant images */
+		var selected_image = $(this).find("option:selected").attr("data-image");
+		$.each($(".gallery .gallery-item"), function() {
+			if($(this).attr("data-image") == selected_image) {
+				$(this).trigger("click");
+				return;
+			}
+		});
+
+		/* update product price */
+		$(".product-price .sale_price").text("$" + (parseFloat($(this).find("option:selected").attr("data-sale_price")) / 100).toFixed(2));
+	});
+
+	$(".qty-adjust_minus").click(function(e) {
+		var qty = $(".qty-num").val();
+		qty = qty>1?qty-1:1;
+		$(".qty-num").val(qty);
+	});
+
+	$(".qty-adjust_plus").click(function(e) {
+		var qty = $(".qty-num").val();
+		qty ++;
+		$(".qty-num").val(qty);
+	});
+
+	$("#addToCart-product-template").click(function(e) {
+		e.preventDefault();
+
+		var form = $("form.shopify-product-form");
+
+		jQuery.ajax({
+     	  type: 'POST',
+	      url: '/cart/add.js',
+	      data: form.serialize(),
+	      dataType: 'json',
+	      success: function(cart) {
+	        console.log(cart);
+	        $(".cart-count").text(cart.quantity);
+
+	        if($(".cart-count").hasClass("hide")) {
+	        	$(".cart-count").removeClass("hide");
+	        }
+	      }
+	    });
+	});
+
+	$(".btn-cart").click(function(e) {
+		e.preventDefault();
+
+
+	});
+
+	$(".gallery_btn-prev").click(function(e) {
+		if ($(this).hasClass("disabled")) {
+			return;
+		}
+
+		$(".gallery_btn-next").removeClass("disabled");
+
+		var sel_item = $(".product-images .gallery .gallery-item.selected");
+		if (sel_item.prev().index() <= 0) {
+			$(this).addClass("disabled");
+		}
+
+		sel_item.prev().trigger("click");
+	});
+
+	$(".gallery_btn-next").click(function(e) {
+		if ($(this).hasClass("disabled")) {
+			return;
+		}
+
+		$(".gallery_btn-prev").removeClass("disabled");
+
+		var sel_item = $(".product-images .gallery .gallery-item.selected");
+		if (sel_item.next().index() >= $(".product-images .gallery .gallery-item").length - 1) {
+			$(this).addClass("disabled");
+		}
+
+		sel_item.next().trigger("click");
+	});
+});

@@ -1,0 +1,45 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign variants_count = 0 %}
+{% for variant in product.variants %}
+  {% assign variants_count = variants_count | plus: 1 %}
+{% endfor %}
+
+{% form 'product', product %}
+  {% if variants_count > 1 %}
+    <div class="row">
+      {% include 'product-variants' %}
+    </div>
+  {% else %}
+    <input name="id" type="hidden" value="{{ current_variant.id }}">
+  {% endif %}
+
+  <div class="row price-row">
+    <span class="product-price"><span class="money sale_price">{{product.price | money}}</span> <sup>Tax included</sup> </span> 
+  </div>
+
+  <div class="row add-to-cart-row">
+    {% if section.settings.product_show_quantity_selector %}
+      <div class="quantity-selector">
+        <button type="button" class="qty-adjust qty-adjust_minus">−</button>
+        <input type="number" class="qty-num" value="1" min="1"name="quantity">
+        <button type="button" class="qty-adjust qty-adjust_plus">+</button>
+      </div>
+    {% else %}
+      <input type="hidden" id="quantity" name="quantity" value="1" min="1">
+    {% endif %}
+
+    {% if current_variant.available %}
+      <button id="addToCart-{{ section.id }}" type="submit" class="add-to-cart"> Add to Cart </button>
+    {% else %}
+      <button id="addToCart-{{ section.id }}" type="submit" class="add-to-cart" disabled>
+        Sold out
+      </button>
+    {% endif %}
+  </div>
+
+  <div class="row dynamic-checkout-row">
+    {% if section.settings.enable_payment_button %}
+      {{ form | payment_button }}
+    {% endif %}
+  </div>
+{% endform %}
