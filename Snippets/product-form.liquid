@@ -20,9 +20,9 @@
   <div class="row add-to-cart-row">
     {% if section.settings.product_show_quantity_selector %}
       <div class="quantity-selector">
-        <button type="button" class="qty-adjust qty-adjust_minus">−</button>
+        <button class="qty-adjust qty-adjust_minus">−</button>
         <input type="number" class="qty-num" value="1" min="1"name="quantity">
-        <button type="button" class="qty-adjust qty-adjust_plus">+</button>
+        <button class="qty-adjust qty-adjust_plus">+</button>
       </div>
     {% else %}
       <input type="hidden" id="quantity" name="quantity" value="1" min="1">

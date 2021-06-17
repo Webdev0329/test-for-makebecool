@@ -9,9 +9,9 @@
 			<a href="/"><img src="{{section.settings.logo | img_url:logo_size}}" class="logo"></a>
 		{% endif %}
 
-		<a class="btn-cart mobile">
+		<a class="btn-ajaxCart mobile">
 			{% include 'icon-cart' %}
-			<span class="cart-count {% if cart.count <= 0 %}hide{% endif %}">{{cart.count}}</span>
+			<span class="cart-count {% if cart.count <= 0 %}hide{% endif %}">{{cart.item_count}}</span>
 			
 		</a>
 	</div>
@@ -27,7 +27,7 @@
 			</a>
 			{% endif %}
 
-			<a class="nav-item btn-cart">
+			<a class="nav-item btn-ajaxCart">
 				{% include 'icon-cart' %}
 				<span class="cart-count {% if cart.item_count <= 0 %}hide{% endif %}">{{cart.item_count}}</span>
 			</a>
@@ -50,6 +50,51 @@
 	<a url="{{link.url}}" class="nav-item {% if link.handle == 'sale' %} strong {% endif %} "> {{link.title}} </a>
 	{% endfor %}
 </div>
+
+<div class="ajaxCart">
+	<div class="ajaxcart-header">
+		<span class="uppercase">Cart {% if cart.item_count > 0 %}(<span class="total_qty">{{cart.item_count}}</span> items){% endif %}</span>
+		<a class="btn-close">
+			{% include 'icon-close_dark' %}
+		</a>
+	</div>
+	<div class="ajaxcart-content">
+		{% for item in cart.items %}
+		<div class="item-row" data-variantid="{{item.variant.id}}">
+			<div class="item-image">
+				<img src="{{item.image | img_url: '80x80'}}">
+			</div>
+			<div class="item-content">
+				<label class="item-title">
+					{{item.title}}
+				</label>
+				<label class="item-price">
+					<span class="money sale_price strong">{{item.variant.price | money}}</span> 
+					{% if item.variant.compare_at_price > 0 %}
+					<del> <span class="money reg_price grey"> {{item.variant.compare_at_price | money}} </span> </del>
+					{% endif %}
+				</label>
+				<div class="item-quantity-row">
+					<button class="ajax-qty-adjust ajax-qty-adjust_minus">−</button>
+			        <input type="number" class="ajax-qty-num" value="{{item.quantity}}" min="1">
+			        <button class="ajax-qty-adjust ajax-qty-adjust_plus">+</button>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	<div class="ajaxcart-footer">
+		<div> 
+			<strong> Subtotal </strong>
+			<strong class="ajaxcart-subtotal money">{{cart.total_price | money}}</strong>
+		</div>
+		<div>
+			<a href="/cart" class="btn-cart">View cart</a>
+			<a href="/checkout" class="btn-checkout">Proceed to checkout</a>
+		</div>
+	</div>
+</div>
+<div class="ajaxcart-overlay hide"></div>
 
 {% schema %}
 {
